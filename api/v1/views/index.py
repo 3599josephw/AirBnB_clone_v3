@@ -14,10 +14,10 @@ def status():
 @app_views.route("/stats", methods=['GET'])
 def count():
     """Returns count of object"""
-    classes = ['amenities', 'cities', 'places', 'reviews',
-               'states', 'users']
+    classes = {'Amenity': 'amenities', 'City': 'cities', 'Place': 'places', 'Review': 'reviews',
+               'State': 'states', 'User': 'users'}
     dict = {}
-    for cls in classes:
-        num = storage.count(cls)
-        dict[cls] = num
+    for k, v in classes.items():
+        num = storage.count(k)
+        dict[v] = num
     return dict
