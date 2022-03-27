@@ -11,7 +11,7 @@ def status():
     return jsonify({'status': 'OK'})
 
 
-@app_views.route("/api/vi/stats", methods=['GET'])
+@app_views.route("/stats", methods=['GET'])
 def count():
     """Returns count of object"""
     classes = ['amenities', 'cities', 'places', 'reviews',
