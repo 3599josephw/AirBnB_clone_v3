@@ -42,7 +42,7 @@ def user_delete(user_id):
             return not_found(404)
 
 
-@app_views.route("/states", methods=['POST'])
+@app_views.route("/users", methods=['POST'])
 def user_create():
     """Creates user"""
     if request.method == 'POST':
