@@ -55,7 +55,7 @@ def user_create():
         user_dict = request.get_json()
         user = User(**user_dict)
         user.save()
-        return jsonify(user.to_dict())
+        return jsonify(user.to_dict()), 201
 
 
 @app_views.route("/users/<user_id>", methods=['PUT'])
