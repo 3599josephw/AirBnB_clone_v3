@@ -82,7 +82,8 @@ def city_update(city_id):
         if city is None:
             return not_found(404)
         for key, value in city_dict.items():
-            if key != 'state_id' and key != 'id' and key != 'created_at' and key != 'updated_at':
+            if key != 'state_id' and key != 'id' \
+                    and key != 'created_at' and key != 'updated_at':
                 setattr(city, key, value)
         storage.save()
         return jsonify(city.to_dict())
