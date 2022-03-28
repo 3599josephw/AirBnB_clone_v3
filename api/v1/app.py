@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Registers Blueprint + Error 404 + Teardown"""
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 from os import environ
@@ -13,7 +13,7 @@ app.register_blueprint(app_views)
 
 @app.errorhandler(404)
 def not_found(e):
-    return jsonify({"error": "Not found"})
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app.teardown_appcontext
