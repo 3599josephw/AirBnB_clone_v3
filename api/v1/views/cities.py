@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """View of a City - Task 8"""
 from flask import jsonify, request, abort
-from api.v1.app import not_found
 from api.v1.views import app_views
 from models.state import State
 from models.state import City
@@ -19,13 +18,7 @@ def all_cities(state_id):
                     cities_list.append(city.to_dict())
                 return jsonify(cities_list)
             else:
-                return not_found(404)
-
-    """states = storage.all(State)
-    statelist = []
-    for state in states.values():
-        statelist.append(state.to_dict())
-    return jsonify(statelist)"""
+                return abort(404)
 
 
 @app_views.route("/cities/<city_id>", methods=['GET'])
@@ -37,7 +30,7 @@ def one_city(city_id=None):
             if obj is not None:
                 return obj.to_dict()
             else:
-                return not_found(404)
+                return abort(404)
 
 
 @app_views.route("/cities/<city_id>", methods=['DELETE'])
@@ -50,7 +43,7 @@ def city_delete(city_id):
             storage.save()
             return {}
         else:
-            return not_found(404)
+            return abort(404)
 
 
 @app_views.route("/states/<state_id>/cities", methods=['POST'])
@@ -59,7 +52,7 @@ def city_create(state_id):
     if request.method == 'POST':
         state = storage.get(State, state_id)
         if state is None:
-            return not_found(404)
+            return abort(404)
         if not request.json:
             abort(400, "Not a JSON")
         if 'name' not in request.json:
@@ -68,7 +61,7 @@ def city_create(state_id):
         city_dict["state_id"] = state_id
         city = City(**city_dict)
         city.save()
-        return jsonify(city.to_dict())
+        return jsonify(city.to_dict()), 201
 
 
 @app_views.route("/cities/<city_id>", methods=['PUT'])
@@ -80,7 +73,7 @@ def city_update(city_id):
         city_dict = request.get_json()
         city = storage.get(City, city_id)
         if city is None:
-            return not_found(404)
+            return abort(404)
         for key, value in city_dict.items():
             if key != 'state_id' and key != 'id' \
                     and key != 'created_at' and key != 'updated_at':

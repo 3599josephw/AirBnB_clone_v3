@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """View of a user - Task 10"""
 from flask import jsonify, request, abort
-from api.v1.app import not_found
 from api.v1.views import app_views
 from models.user import User
 from models import storage
@@ -26,7 +25,7 @@ def one_user(user_id=None):
             if obj is not None:
                 return obj.to_dict()
             else:
-                return not_found(404)
+                return abort(404)
 
 
 @app_views.route("/users/<user_id>", methods=['DELETE'])
@@ -39,7 +38,7 @@ def user_delete(user_id):
             storage.save()
             return {}
         else:
-            return not_found(404)
+            return abort(404)
 
 
 @app_views.route("/users", methods=['POST'])
@@ -67,7 +66,7 @@ def user_update(user_id):
         user_dict = request.get_json()
         user = storage.get(User, user_id)
         if user is None:
-            return not_found(404)
+            return abort(404)
         for key, value in user_dict.items():
             if key != 'email' and key != 'id' and \
                     key != 'created_at' and key != 'updated_at':

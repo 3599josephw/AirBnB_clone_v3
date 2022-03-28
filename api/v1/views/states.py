@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """View of a State - Task 7"""
 from flask import jsonify, request, abort
-from api.v1.app import not_found
 from api.v1.views import app_views
 from models.state import State
 from models import storage
@@ -26,7 +25,7 @@ def one_state(state_id=None):
             if obj is not None:
                 return obj.to_dict()
             else:
-                return not_found(404)
+                return abort(404)
 
 
 @app_views.route("/states/<state_id>", methods=['DELETE'])
@@ -39,7 +38,7 @@ def state_delete(state_id):
             storage.save()
             return {}
         else:
-            return not_found(404)
+            return abort(404)
 
 
 @app_views.route("/states", methods=['POST'])
@@ -53,7 +52,7 @@ def state_create():
         state_dict = request.get_json()
         state = State(**state_dict)
         state.save()
-        return jsonify(state.to_dict())
+        return jsonify(state.to_dict()), 201
 
 
 @app_views.route("/states/<state_id>", methods=['PUT'])
@@ -65,7 +64,7 @@ def state_update(state_id):
         state_dict = request.get_json()
         state = storage.get(State, state_id)
         if state is None:
-            return not_found(404)
+            return abort(404)
         for key, value in state_dict.items():
             if key != 'id' and key != 'created_at' and key != 'updated_at':
                 setattr(state, key, value)
