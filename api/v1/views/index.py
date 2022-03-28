@@ -14,7 +14,8 @@ def status():
 @app_views.route("/stats", methods=['GET'])
 def count():
     """Returns count of object"""
-    classes = {'Amenity': 'amenities', 'City': 'cities', 'Place': 'places', 'Review': 'reviews',
+    classes = {'Amenity': 'amenities', 'City': 'cities',
+               'Place': 'places', 'Review': 'reviews',
                'State': 'states', 'User': 'users'}
     dict = {}
     for k, v in classes.items():
