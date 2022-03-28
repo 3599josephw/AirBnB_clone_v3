@@ -29,7 +29,6 @@ def one_state(state_id=None):
                 return not_found(404)
 
 
-#Doesn't actually delete the state
 @app_views.route("/states/<state_id>", methods=['DELETE'])
 def state_delete(state_id):
     if state_id:
@@ -48,11 +47,10 @@ def state_create():
     if request.method == 'POST':
         if not request.json:
             abort(400, "Not a JSON")
-        if not 'name' in request.json:
+        if 'name' not in request.json:
             abort(400, "Missing name")
         state_dict = request.get_json()
         state = State(**state_dict)
-        print("hello")
         state.save()
         return jsonify(state.to_dict())
 
