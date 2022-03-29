@@ -8,7 +8,7 @@ from os import environ
 
 
 app = Flask(__name__)
-CORS(app, origins=["http://0.0.0.0/*"], allow_headers='*')
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 app.url_map.strict_slashes = False
 
