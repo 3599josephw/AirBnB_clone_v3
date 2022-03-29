@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """Registers Blueprint + Error 404 + Teardown"""
 from flask import Flask, jsonify, make_response
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 from os import environ
 
 
 app = Flask(__name__)
+CORS(app, origins=["http://0.0.0.0/*"], allow_headers='*')
 
 app.url_map.strict_slashes = False
 
